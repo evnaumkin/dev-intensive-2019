@@ -25,6 +25,11 @@ class Bender(var status:Status = Status.NORMAL,
     }
 
     fun validation(answer: String): String {
+
+        if(answer.isNullOrBlank()) {
+            return ""
+        }
+
         val trimmed = answer.trim()
 
         return when (question) {

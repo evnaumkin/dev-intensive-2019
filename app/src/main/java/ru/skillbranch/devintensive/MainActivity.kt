@@ -116,11 +116,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, TextView.OnEdito
     private fun onClickSend() {
         val textMessage = messageEt.text.toString()
 
-        /*if(textMessage.isNullOrBlank()) {
-            messageEt.setText("")
-            return
-        }*/
-
         val validationMessage = benderObj.validation(textMessage)
 
         if (validationMessage.isEmpty()) {
