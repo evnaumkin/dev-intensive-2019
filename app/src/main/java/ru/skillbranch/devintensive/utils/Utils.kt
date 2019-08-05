@@ -1,9 +1,10 @@
 package ru.skillbranch.devintensive.utils
 
+import android.content.Context
+import android.util.TypedValue
+
 object Utils {
     fun cyr2lat(ch: String): String {
-
-        //val char:String
 
         return when(ch){
             "а" -> "a"
@@ -41,7 +42,6 @@ object Utils {
             "я" -> "ya"
             else -> ch
         }
-
     }
 
     fun parseFullName(fullName: String?): Pair<String?, String?> {
@@ -66,14 +66,6 @@ object Utils {
                                           .map { it?.trimStart()?.first() }
                                           .joinToString("")
                                           .toUpperCase()
-
-        /*val nc: String? = when {
-            firstName.isNullOrBlank() and lastName.isNullOrBlank() -> null
-            firstName.isNullOrBlank() -> lastName?.trimIndent()?.first()?.toString()
-            lastName.isNullOrBlank() -> firstName?.trimIndent()?.first()?.toString()
-            else -> "${firstName?.trimIndent()?.first()}${lastName?.trimIndent()?.first()}".toString()
-        }
-        return nc?.toUpperCase()*/
     }
 
     fun transliteration(payload: String, divider: String = " "): String {
@@ -93,4 +85,40 @@ object Utils {
         }
         return sb.toString();
     }
+
+    private val exceptionsAddresses = listOf(
+            "enterprise",
+            "features",
+            "topics",
+            "collections",
+            "trending",
+            "events",
+            "marketplace",
+            "pricing",
+            "nonprofit",
+            "customer-stories",
+            "security",
+            "login",
+            "join")
+
+    fun validateRepository(repository: String): Boolean {
+        if (repository.isEmpty()) return true
+        val regex = Regex("^(https:\\/\\/)?(www\\.)?(github\\.com\\/)(?!(${exceptionsAddresses.joinToString("|")})(?=\\/|\$))[a-zA-Z\\d](?:[a-zA-Z\\d]|-(?=[a-zA-Z\\d])){0,38}(\\/)?$")
+        return repository.contains(regex)
+    }
+
+    fun convertDpToPixels(context: Context, dp: Float): Int {
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.resources.displayMetrics).toInt()
+    }
+    fun convertPixelsToDp(context: Context, pixels: Int): Int {
+        return pixels.div(context.resources.displayMetrics.density).toInt()
+    }
+    fun convertSpToPixels(context: Context, sp: Float): Int {
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp, context.resources.displayMetrics).toInt()
+    }
+
+    //fun dp2px(context: Context, dp: Float) : Float = (dp * context.resources.displayMetrics.density + 0.5f)
+    //fun sp2px(context: Context, sp: Float) : Float = (sp * context.resources.displayMetrics.density)
+    //fun px2dp(context: Context, pixels: Float) : Float = (pixels / context.resources.displayMetrics.density + 0.5f)
+
 }
